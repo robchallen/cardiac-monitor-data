@@ -36,6 +36,8 @@ if(exists("a") && length(a)>1) {
 }
 
 if (in_dir == out_dir) stop("input and output directory cannot be the same")
+fs::dir_create(in_dir)
+fs::dir_create(out_dir)
 
 # OR: define manually
 # out_dir = "C:\\something\\somewhere\\output_directory"
