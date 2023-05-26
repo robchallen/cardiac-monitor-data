@@ -73,7 +73,7 @@ for (file in files) {
     # hash the serial number.
     mutate(
       `Serial number` = digest::digest(`Serial number`,algo = "md5"),
-      `Transmitter SN` = digest::digest(`Serial number`,algo = "md5")
+      `Transmitter SN` = digest::digest(`Transmitter SN`,algo = "md5")
     )
   
   # write the files out.
