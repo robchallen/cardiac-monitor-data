@@ -71,7 +71,10 @@ for (file in files) {
     # reorder dates to front of CSV
     select(c(ends_with("(days)"),everything())) %>%
     # hash the serial number.
-    mutate(`Serial number` = digest::digest(`Serial number`,algo = "md5"))
+    mutate(
+      `Serial number` = digest::digest(`Serial number`,algo = "md5"),
+      `Transmitter SN` = digest::digest(`Serial number`,algo = "md5")
+    )
   
   # write the files out.
   out_file = fs::path(out_dir,fs::path_file(file))
