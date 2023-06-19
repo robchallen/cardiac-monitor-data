@@ -46,6 +46,7 @@ fs::dir_create(out_dir)
 files = fs::dir_ls(in_dir, glob="*.csv")
 
 for (file in files) {
+  # file = files[[2]]
   csv = suppressMessages(readr::read_delim(file,delim = ";",na = c("---","")))
   
   # scan through the columns looking for things that can be converted to dates
@@ -54,10 +55,15 @@ for (file in files) {
     # name = colnames(csv)[1]
     col = csv[[name]]
     if (is.character(col)) {
-      tmp = as.POSIXct(col,tryFormats=c("%d-%b-%Y  %T","%d-%b-%Y %T"),optional = TRUE)
+      tmp = suppressWarnings(lubridate::dmy_hms(col))
       # any successful dates?
       if (!all(is.na(tmp))) {
         csv[[name]] = tmp
+      } else {
+        tmp2 = suppressWarnings(lubridate::dmy(col))
+        if (!all(is.na(tmp2))) {
+          csv[[name]] = tmp2
+        }
       }
     }
   }
