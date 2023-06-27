@@ -72,8 +72,9 @@ for (file in files) {
   # as an additional column
   csv2 = csv %>%
     mutate(across(c(where(is.POSIXct)), .fns = ~ as.double(difftime(`Date of implantation`,.x,units = "days")), .names = "{.col} (days)")) %>%
+    mutate(across(c(where(is.Date)), .fns = ~ as.double(difftime(`Date of implantation`,.x,units = "days")), .names = "{.col} (days)")) %>%
     # get rid of original date colums
-    select(-where(is.POSIXct)) %>%
+    select(-where(is.POSIXct),-where(is.Date)) %>%
     # reorder dates to front of CSV
     select(c(ends_with("(days)"),everything())) %>%
     # hash the serial number.
